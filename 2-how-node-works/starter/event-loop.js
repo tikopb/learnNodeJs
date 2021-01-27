@@ -8,7 +8,7 @@ fs.readFile('text-file.txt', () => {
     setTimeout(() => console.log("Timer 3 Finished"), 3000);
     setImmediate(() => console.log("Immediate 3 finished"));
 
-    process.nextTick(() => console.log("Process nextTick")); // di runnning ketika pertama kali running pada event loop.
+     process.nextTick(() => console.log("Process nextTick")); // di runnning ketika pertama kali running pada event loop.
 });
 
 console.log("Hello From the top-level code"); 
