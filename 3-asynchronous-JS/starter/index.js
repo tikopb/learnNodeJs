@@ -21,24 +21,48 @@ const writeFilePro = (file,data) => {
 };
 
 const getDocPic = async () => {
-        try{
+    try{
 
-            const data = await readFilePro(`${__dirname}/dog.txt`);
-            console.log(`Bread: ${data}`);
+        const data = await readFilePro(`${__dirname}/dog.txt`);
+        console.log(`Bread: ${data}`);
+        
+        const res = await superAgent.get(
+            `https://dog.ceo/api/breed/${data}/images/random
+            `);
+            console.log(res.body.message);
             
-            const res = await superAgent.get(
-                `https://dog.ceo/api/breed/${data}/images/random
-                `);
-                console.log(res.body.message);
-                
-                await writeFilePro('dog-img.txt', res.body.message);
-                console.log('Random Dog image saved!');
-        }
-        catch(err){
-            console.log(err.message);
-        }
-    };
-getDocPic();
+            await writeFilePro('dog-img.txt', res.body.message);
+            console.log('Random Dog image saved!');
+    }
+    catch(err){
+        console.log(err.message);
+        throw (err.message)
+    }
+    return '2: ready';
+};
+
+(async () => {
+    try {
+        console.log('1: will get dog pics');
+        const x = await getDocPic(); // await digunakan agara sync function menunggu hinggra process selesai. 
+        console.log(x);
+        console.log('3. : done getting dog pics');
+    } catch (err) {
+        console.log(err.message);
+    }
+})();
+
+/*
+console.log('1: will get dog pics');
+getDocPic().then(x => {
+    console.log(x);
+    console.log('3. : done getting dog pics');
+})
+.catch(err => {
+    console.log(err.message);
+});
+*/
+
 /* readFilePro(`${__dirname}/dog.txt`)
     .then(data => {
         console.log(`Bread: ${data}`);
