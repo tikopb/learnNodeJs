@@ -20,6 +20,11 @@ const writeFilePro = (file,data) => {
     });
 };
 
+
+
+
+
+
 const getDocPic = async () => {
     try{
 
