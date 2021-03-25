@@ -17,26 +17,6 @@ exports.GetAllTours = (req,res) => {
     });
 };
 
-exports.GetTour = (req,res) => {
-    console.log(req.params);
-    const id = req.params.id * 1;
- 
-    if(id > tours.length){
-        return res.status(404).json({
-            status: 'Fail',
-            message: 'invalid ID'
-        });
-    }
-
-    const tour = tours.find(el => el.id === id);
-    res.status(200).json({
-        status: 'success',
-        data: {
-            tours
-        }
-    });
-}
-
 exports.CreateTour = (req,res) => {
     //console.log(req.body);
     const newId = tours[tours.length - 1].id +1;
@@ -55,6 +35,37 @@ exports.CreateTour = (req,res) => {
                 tours: newTour
             }
         });
+    });
+}
+
+exports.checkID = (req,res,next,val) =>{
+    const id = req.params.id * 1;
+    console.log(`Tour id is: ${val}`);
+    if(req.params.id * 1 > tours.length){
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid Id'
+        });
+    } 
+    next(); 
+};
+
+exports.GetTour = (req,res) => {
+    console.log(req.params);
+    const id = req.params.id * 1;
+    if(req.params.id * 1 > tours.length){
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid Id'
+        });
+    }
+
+    const tour = tours.find(el => el.id === id);
+    res.status(200).json({
+        status: 'success',
+        data: {
+            tours
+        }
     });
 }
 
