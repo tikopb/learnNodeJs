@@ -5,7 +5,7 @@ const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
 
-exports.checkId = (req,res,nect,val) => { 
+exports.checkId = (req,res,next,val) => { 
     console.log(`Tour id is: ${val}`);
     
     if(req.params.id * 1 > tours.length){
