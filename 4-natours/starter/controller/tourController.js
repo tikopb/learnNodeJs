@@ -1,8 +1,21 @@
 const fs = require('fs');
+const { nextTick } = require('process');
 
 const tours = JSON.parse(
     fs.readFileSync(`${__dirname}/../dev-data/data/tours-simple.json`)
 );
+
+exports.checkId = (req,res,nect,val) => { 
+    console.log(`Tour id is: ${val}`);
+    
+    if(req.params.id * 1 > tours.length){
+        return res.status(404).json({
+            status: 'fail',
+            message: 'Invalid ID'
+        });
+    }
+    next();
+};
 
 exports.GetAllTours = (req,res) => {
     console.log(req.requestTime);
@@ -38,29 +51,14 @@ exports.CreateTour = (req,res) => {
     });
 }
 
-exports.checkID = (req,res,next,val) =>{
-    const id = req.params.id * 1;
-    console.log(`Tour id is: ${val}`);
-    if(req.params.id * 1 > tours.length){
-        return res.status(404).json({
-            status: 'fail',
-            message: 'Invalid Id'
-        });
-    } 
-    next(); 
-};
-
 exports.GetTour = (req,res) => {
     console.log(req.params);
-    const id = req.params.id * 1;
     if(req.params.id * 1 > tours.length){
         return res.status(404).json({
             status: 'fail',
             message: 'Invalid Id'
         });
     }
-
-    const tour = tours.find(el => el.id === id);
     res.status(200).json({
         status: 'success',
         data: {
@@ -98,3 +96,4 @@ exports.Deletetour = (req,res) => {
         data:null
     });
 }
+
